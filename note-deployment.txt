@@ -1,0 +1,157 @@
+Controller:
+- k8s objects
+- supervisor (supervise Pods)
+
+Pods are ephemeral
+- can die
+- not persistent
+
+Features of controllers (k8s in general)
+- Failure (Self healing)
+- Scale (scalability) == Autoscaling
+- Rollout and Rollback
+
+Examples of Controller
+	- ReplicaSet
+	- Deployments
+	- StatefulSet
+
+ReplicaSet
+	(2) Declarative
+	
+	selectors <==> labels
+
+Deployments:
+	- Abstract ReplicaSet ==> Abstract Pods
+
+	Creating Deployment:
+	- Impretative way
+	- Declarative Way
+
+	Imperative:
+		kubectl create deployment app-cache --image=memcached:1.6.8 --replicas=8
+	
+	Declarative:
+		YAML
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+
+
+
+kubectl create deployment raycoy-jenkins --image=jenkins/jenkins --replicas=3 -o yaml --dry-run=client > jenkins-deploy.yaml
+
+
+kubectl create -f jenkins-deploy.yaml
+(OR)
+kubectl apply -f jenkins-deploy.yaml
+
+
+
+Delete Deployment
+	kubectl get deploy
+
+	kubectl delete deploy <name of object>
+		kubectl delete rs nginx-rs
+
+	kubectl delete -f <yaml file>
+		kubectl delete -f deploy1.yaml
+
+		kubectl delete -f jenkins-deploy.yaml
+
+
+Update Deployment
+	
+	Initial deployment:
+		
+		kubectl create deployment app-cache --image=memcached:1.6.8 --replicas=8
+	
+		memcached:1.6.10
+
+
+
+	 (option1) kubectl set image deployment app-cache memcached=memcached:1.6.10
+	
+	(option 2)
+		kubectl get deployment app-cache -o yaml > update-deploy.yaml
+		vi update-deploy.yaml
+		Update your image
+		kubectl apply -f update-deploy.yaml
+
+
+	Live update:
+		kubectl edit deployment app-cache
+
+Rollout and Rollback
+	kubectl rollout history deployment app-cache
+
+	kubectl rollout undo --help
+
+	kubectl rollout undo deployment app-cache --to-revision=5
+
+
+Scaling Deployment:
+	Manual Scaling
+		Imperative
+			kubectl scale deployment my-nginx --replicas=2
+			kubectl scale deployment app-cache --replicas=1
+
+		Declarative
+			kubectl get deployment app-cache -o yaml > app-cache-scaled.yaml
+
+	Autoscaling
+		- k8s HorizontalPodAutoscaler
+
+		Imperative
+			kubectl autoscale deployment app-cache --cpu-percent=75 --min=5 --max=20			
+
+		Declarative
+
+		
+
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

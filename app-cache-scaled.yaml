@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "9"
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{"deployment.kubernetes.io/revision":"2"},"creationTimestamp":"2023-04-23T20:40:55Z","generation":2,"labels":{"app":"app-cache"},"name":"app-cache","namespace":"default","resourceVersion":"25254","uid":"5291c087-508d-4e6b-ac58-a53cd75a7958"},"spec":{"progressDeadlineSeconds":600,"replicas":8,"revisionHistoryLimit":10,"selector":{"matchLabels":{"app":"app-cache"}},"strategy":{"rollingUpdate":{"maxSurge":"25%","maxUnavailable":"25%"},"type":"RollingUpdate"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"app-cache"}},"spec":{"containers":[{"image":"memcached:alpine","imagePullPolicy":"IfNotPresent","name":"memcached","resources":{},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File"}],"dnsPolicy":"ClusterFirst","restartPolicy":"Always","schedulerName":"default-scheduler","securityContext":{},"terminationGracePeriodSeconds":30}}},"status":{"availableReplicas":8,"conditions":[{"lastTransitionTime":"2023-04-23T20:41:00Z","lastUpdateTime":"2023-04-23T20:41:00Z","message":"Deployment has minimum availability.","reason":"MinimumReplicasAvailable","status":"True","type":"Available"},{"lastTransitionTime":"2023-04-23T20:40:55Z","lastUpdateTime":"2023-04-23T21:17:36Z","message":"ReplicaSet \"app-cache-6679b6fb9\" has successfully progressed.","reason":"NewReplicaSetAvailable","status":"True","type":"Progressing"}],"observedGeneration":2,"readyReplicas":8,"replicas":8,"updatedReplicas":8}}
+    kubernetes.io/change-cause: kubectl.exe set image deployment app-cache memcached=memcached:1.6.8
+      --record=true
+  creationTimestamp: "2023-04-23T20:40:55Z"
+  generation: 11
+  labels:
+    app: app-cache
+  name: app-cache
+  namespace: default
+  resourceVersion: "32975"
+  uid: 5291c087-508d-4e6b-ac58-a53cd75a7958
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 15
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: app-cache
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: app-cache
+    spec:
+      containers:
+      - image: memcached:1.6.8
+        imagePullPolicy: IfNotPresent
+        name: memcached
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  availableReplicas: 5
+  conditions:
+  - lastTransitionTime: "2023-04-23T20:40:55Z"
+    lastUpdateTime: "2023-04-23T21:45:19Z"
+    message: ReplicaSet "app-cache-86bc45f68b" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  - lastTransitionTime: "2023-04-23T21:51:08Z"
+    lastUpdateTime: "2023-04-23T21:51:08Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  observedGeneration: 11
+  readyReplicas: 5
+  replicas: 5
+  updatedReplicas: 5

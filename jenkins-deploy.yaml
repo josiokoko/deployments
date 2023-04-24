@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: raycoy-jenkins
+  name: raycoy-jenkins
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: raycoy-jenkins
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: raycoy-jenkins
+    spec:
+      containers:
+      - image: jenkins/jenkins
+        name: jenkins
+        resources: {}
+status: {}
